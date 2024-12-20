@@ -1,0 +1,59 @@
+<h2 class="text-center p-3">Angular Todo List App</h2>
+
+<!-- add  -->
+<div class="p-2" style="display: flex;">
+    <input class="form-control" placeholder="Enter Task" [(ngModel)]="newTask"  (keydown.enter)="add()">
+    <button class="btn btn-success" style="flex: 1;" [disabled]="newTask == ''" (click)="add()">
+        <span style="display: flex; align-items: center">
+            <i class="fa fa-plus"></i> Add
+        </span>
+    </button>
+</div>
+
+<div class="p-4">
+    <div class="row">
+        <div class="col-6 text-center cursor" [style.borderBottom]="isList ? '2px solid green':''"
+        (click)="isList = true">List</div>
+        <div class="col-6 text-center cursor" [style.borderBottom]="!isList ? '2px solid green':''"
+        (click)="isList = false">Done</div>
+    </div>
+</div>
+
+@if(isList){
+    @for (item of allList; track $index) {
+        <div class="px-5 pt-2" style="display: flex; justify-content: space-between">
+            <span>{{item}}</span>
+            <div>
+                <span style="color: green;" (click)="done(item , $index)" title="Done">
+                    <i class="fa fa-circle-check  fa-2x cursor"></i>
+                </span>
+                &nbsp;
+                <span style="color: red;" (click)="deleteTask(item, $index)" title="Delete Task">
+                    <i class="fa fa-trash  fa-2x cursor"></i>
+                </span>
+            </div>
+        </div>
+        <hr>
+    }
+    @if(allList.length == 0){
+        <div class="text-center">
+            No Task Added Yet !
+        </div>
+    }
+}
+@else{
+    @for (item of allDone; track $index) {
+        <div class="px-5 pt-2" style="display: flex; justify-content: space-between">
+            <span>{{item}}</span>
+            <span style="color: red;" (click)="deleteTaskDone(item,$index)" title="Delete">
+                <i class="fa fa-trash  fa-2x cursor"></i>
+            </span>
+        </div>
+        <hr>
+    }
+    @if(allDone.length == 0){
+        <div class="text-center">
+            No Task Done Yet !
+        </div>
+    }
+}
